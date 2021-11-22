@@ -973,6 +973,7 @@ supported_targets! {
     ("riscv64imac-unknown-none-elf", riscv64imac_unknown_none_elf),
     ("riscv64gc-unknown-none-elf", riscv64gc_unknown_none_elf),
     ("riscv64gc-unknown-linux-gnu", riscv64gc_unknown_linux_gnu),
+    ("riscv64gc-linux-android", riscv64gc_linux_android),
     ("riscv64gc-unknown-linux-musl", riscv64gc_unknown_linux_musl),
 
     ("aarch64-unknown-none", aarch64_unknown_none),

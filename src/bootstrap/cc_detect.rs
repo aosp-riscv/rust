@@ -167,6 +167,7 @@ fn set_compiler(
             if let Some(ndk) = config.and_then(|c| c.ndk.as_ref()) {
                 let target = target
                     .triple
+                    .replace("riscv64gc", "riscv64")
                     .replace("armv7neon", "arm")
                     .replace("armv7", "arm")
                     .replace("thumbv7neon", "arm")

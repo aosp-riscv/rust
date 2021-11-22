@@ -114,6 +114,8 @@ v("aarch64-linux-android-ndk", "target.aarch64-linux-android.android-ndk",
   "aarch64-linux-android NDK standalone path")
 v("x86_64-linux-android-ndk", "target.x86_64-linux-android.android-ndk",
   "x86_64-linux-android NDK standalone path")
+v("riscv64gc-linux-android-ndk", "target.riscv64gc-linux-android.android-ndk",
+  "riscv64gc-linux-android NDK standalone path")
 v("musl-root", "target.x86_64-unknown-linux-musl.musl-root",
   "MUSL root installation directory (deprecated)")
 v("musl-root-x86_64", "target.x86_64-unknown-linux-musl.musl-root",
