@@ -164,6 +164,22 @@ pub fn get_or_default_sysroot() -> Result<PathBuf, String> {
         fix_windows_verbatim_for_gcc(&path)
     }
 
+    // Use env::current_exe() to get the path of the executable following
+    // symlinks/canonicalizing components.
+    #[cfg(target_os = "linux")]
+    fn default_from_current_exe() -> Result<PathBuf, io::Error> {
+        match env::current_exe() {
+            Ok(exe) => {
+                let mut p = canonicalize(exe)?;
+                p.pop();
+                p.pop();
+
+                Ok(p)
+            }
+            Err(e) => Err(e),
+        }
+    }
+
     fn default_from_rustc_driver_dll() -> Result<PathBuf, String> {
         let dll = current_dll_path().map(|s| canonicalize(s))?;
 
@@ -191,6 +207,18 @@ pub fn get_or_default_sysroot() -> Result<PathBuf, String> {
         } else {
             Ok(dir.to_owned())
         }
+    }
+
+    // Select a default path based on the platform this Rust binary is currently running on
+    fn default_from_current_platform() -> Result<PathBuf, String> {
+        #[cfg(target_os = "linux")]
+        {
+            if let Ok(p) = default_from_current_exe() {
+                return Ok(p);
+            }
+        }
+
+        default_from_rustc_driver_dll()
     }
 
     // Use env::args().next() to get the path of the executable without
@@ -223,5 +251,5 @@ pub fn get_or_default_sysroot() -> Result<PathBuf, String> {
         }
     }
 
-    Ok(from_env_args_next().unwrap_or(default_from_rustc_driver_dll()?))
+    Ok(from_env_args_next().unwrap_or(default_from_current_platform()?))
 }
